@@ -67,13 +67,13 @@ if __name__ == "__main__":
             artifact_dir = artifact.download()
             dataset = load_from_disk(artifact_dir)
         else:
-            dataset = load_dataset("shunk031/JGLUE", name=eval_category[2])
+            dataset = load_dataset("shunk031/JGLUE", name=eval_category[1])
         pipe = pipeline(
             "text-generation", model=model, tokenizer=tokenizer, eos_token_id=tokenizer.eos_token_id, pad_token_id=tokenizer.pad_token_id,
             max_new_tokens=3, device=0, torch_dtype=torch.float16, temperature=temperature,
         )
         llm = HuggingFacePipeline(pipeline=pipe)
-        llm_chain = LLMChain(llm=llm, prompt=get_template(eval_category[2], template_type), output_key="output")
+        llm_chain = LLMChain(llm=llm, prompt=get_template(eval_category[1], template_type), output_key="output")
         jnli_score = eval_JNLI(dataset,llm_chain)
         table_contents.append(jnli_score)
 
@@ -83,13 +83,13 @@ if __name__ == "__main__":
             artifact_dir = artifact.download()
             dataset = load_from_disk(artifact_dir)
         else:
-            dataset = load_dataset("shunk031/JGLUE", name=eval_category[3])
+            dataset = load_dataset("shunk031/JGLUE", name=eval_category[2])
         pipe = pipeline(
             "text-generation", model=model, tokenizer=tokenizer, eos_token_id=tokenizer.eos_token_id, pad_token_id=tokenizer.pad_token_id,
             max_new_tokens=25, device=0, torch_dtype=torch.float16, temperature=temperature,
         )
         llm = HuggingFacePipeline(pipeline=pipe)
-        llm_chain = LLMChain(llm=llm, prompt=get_template(eval_category[3], template_type), output_key="output")
+        llm_chain = LLMChain(llm=llm, prompt=get_template(eval_category[2], template_type), output_key="output")
         _, JSQuAD_F1= eval_JSQuAD(dataset,llm_chain)
         
         table_contents.append(JSQuAD_F1)
@@ -100,13 +100,13 @@ if __name__ == "__main__":
             artifact_dir = artifact.download()
             dataset = load_from_disk(artifact_dir)
         else:
-            dataset = load_dataset("shunk031/JGLUE", name=eval_category[4])
+            dataset = load_dataset("shunk031/JGLUE", name=eval_category[3])
         pipe = pipeline(
             "text-generation", model=model, tokenizer=tokenizer, eos_token_id=tokenizer.eos_token_id, pad_token_id=tokenizer.pad_token_id,
             max_new_tokens=5, device=0, torch_dtype=torch.float16, temperature=temperature,
             )
         llm = HuggingFacePipeline(pipeline=pipe)
-        llm_chain = LLMChain(llm=llm, prompt=get_template(eval_category[4], template_type), output_key="output")
+        llm_chain = LLMChain(llm=llm, prompt=get_template(eval_category[3], template_type), output_key="output")
 
         JCommonsenseQA = eval_JCommonsenseQA(dataset,llm_chain)
         table_contents.append(JCommonsenseQA)
