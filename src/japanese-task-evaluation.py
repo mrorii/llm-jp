@@ -90,9 +90,8 @@ if __name__ == "__main__":
         )
         llm = HuggingFacePipeline(pipeline=pipe)
         llm_chain = LLMChain(llm=llm, prompt=get_template(eval_category[3], template_type), output_key="output")
-        JSQuAD_EM, JSQuAD_F1= eval_JSQuAD(dataset,llm_chain)
+        _, JSQuAD_F1= eval_JSQuAD(dataset,llm_chain)
         
-        table_contents.append(JSQuAD_EM)
         table_contents.append(JSQuAD_F1)
  
         #JCommonsenseQA--------------------------------------------------------
@@ -114,9 +113,9 @@ if __name__ == "__main__":
 
 
         #End--------------------------------------------------------
-        table = wandb.Table(columns=['model_name','MARC-ja', 'JNLI', 'JSQuAD-EM', 'JSQuAD-F1', 'JCommonsenseQA'],
+        table = wandb.Table(columns=['model_name','MARC-ja-balanced', 'JNLI-balanced', 'JSQuAD-F1', 'JCommonsenseQA'],
                             data=[table_contents])
-        table = wandb.Table(columns=['model_name','MARC-ja', 'JNLI', 'JSQuAD-EM', 'JSQuAD-F1', 'JCommonsenseQA'],
+        table = wandb.Table(columns=['model_name','MARC-ja-balanced', 'JNLI-balanced', 'JSQuAD-F1', 'JCommonsenseQA'],
                             data=table.data)
         run.log({'result_table':table}) 
         run.log_code()
